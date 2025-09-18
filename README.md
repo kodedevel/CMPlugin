@@ -15,7 +15,7 @@ A Simple gradle plugin to manage your static web pages.
 - You can delete them all by one command too :)
 
 **Separated project and configuration files**
-- Your project will be your web contents directory which is not your root directory this makes your workspace tidy and it reduces your files in your workspace (By separating gradle and your main Workspace).
+- Your project will be your web contents directory which shall not be your root directory this will make your workspace separated from your root project. (You don't need to push files behind your workspace to GitHub).
 
 **Support Some Git Features**
 - by automation feature you can clone your static contents repository add remote and then pull to sync your project just by one command!
@@ -23,10 +23,18 @@ A Simple gradle plugin to manage your static web pages.
 - supports some git tasks such as init, add, remote add, commit, pull, push separately.
 - by init the project will create your project directory and inits git.
 
-  
+**NOTE:** Your root project shall not be your workspace, Your workspace is the directory that you define in root project and the plugin can handle it!
 
-**NOTE:** Your root project will not be your workspace, Your workspace is the directory that you define in root project and the plugin can handle it!
+**Add Plugin**
+----
 
+You can add plugin in build.gradle file of your root project as below:
+
+```gradle
+    plugins{
+        id("io.github.kodedevel.cmplugin") version "1.0"
+    }
+```
 
 **Configuration**
 ----
@@ -40,7 +48,7 @@ After adding plugin to your project you can config it in your build.gradle.kts o
 ```Gradle
 cmpConfig{
     projectDir = "path-to-your-workspace-directory"
-    baseURL = "url-of-your-website
+    baseURL = "url-of-your-website"
 }
 ```
 
@@ -52,9 +60,9 @@ cmpConfig{
         ...
         
         git{
-            username="Your-Git-Username"
-            origin="origin-of-your-branch" //e.g main
-            commitMessage="your-commit-message-to-affect-push"
+            username = "Your-Git-Username"
+            origin = "origin-of-your-branch" //e.g main
+            commitMessage = "Your-commit-message-to-affect-push"
         }
         
     }
@@ -69,6 +77,7 @@ cmpConfig{
     cmpConfig{
 
         ...
+        
         sitemap{
             categories= arrayOf("first-category", "second-category", /* And so on... */)
             exclude = arrayOf("fileA.html", "fileB.html", "fileC.html", /*and so on ... */)
