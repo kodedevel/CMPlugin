@@ -19,7 +19,7 @@ gradlePlugin {
             id = "io.github.kodedevel.cmplugin"
             displayName = "CMPlugin"
             description = "manage static web contents such as automation creating sitemaps, creating backups execute git commands and etc."
-            tags = listOf("Static Web handle", "HTML", "Manage Sitemap", "Static Content Manager Plugin")
+            tags = listOf("Web", "HTML", "Git", "Github","Sitemap","Static Website", "Static Content Manager Plugin")
             implementationClass = "io.github.kodedevel.cmplugin.CMPlugin"
         }
     }
