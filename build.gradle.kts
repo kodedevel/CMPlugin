@@ -4,7 +4,7 @@ plugins{
 }
 
 group = "io.github.kodedevel"
-version = "1.0"
+version = "1.1"
 
 repositories{
     gradlePluginPortal()
