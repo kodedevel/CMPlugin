@@ -1,8 +1,6 @@
 package io.github.kodedevel.cmplugin.tasks.sitemap
 
 import io.github.kodedevel.cmplugin.CMPExtension
-import io.github.kodedevel.cmplugin.tasks.Configurable
-import io.github.kodedevel.cmplugin.tasks.TaskRunnable
 import io.github.kodedevel.cmplugin.tasks.sitemap.builder.Sitemap
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property

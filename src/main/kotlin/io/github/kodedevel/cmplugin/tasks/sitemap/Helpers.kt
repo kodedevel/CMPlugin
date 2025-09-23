@@ -1,6 +1,5 @@
 package io.github.kodedevel.cmplugin.tasks.sitemap
 
-import java.io.ByteArrayOutputStream
 import java.io.File
 
 internal fun isHTML(file: File): Boolean = file.extension == "html" || file.extension == "htm"
