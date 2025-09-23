@@ -1,58 +1,70 @@
-<h1 align="center">
-  Static Web Content Manager Plugin for Gradle
-</h1>
+# Static Web Content Manager Plugin for Gradle
 
 A Simple gradle plugin to manage your static web pages.
 
-**Features**
-----
+## Features
 
-**Backup and Restore**
-- You can create a local backup of your project any time to have your up-to-date contents to make sure u won't lose your data.
+### Backup and Restore
+- You can create a local backup of your project any time to have your up-to-dated contents.
 
-**Create Sitemap**
-- You will have full sitemap of your html files just by one command.
-- You can delete them all by one command too :)
+### Create Sitemap
+- have full sitemap of your html files just by one command.
+- delete them all generated sitemap files by one command.
 
-**Separated project and configuration files**
+### Separated project and configuration files
 - Your project will be your web contents directory which shall not be your root directory this will make your workspace separated from your root project. (You don't need to push files behind your workspace to GitHub).
 
-**Support Some Git Features**
-- by automation feature you can clone your static contents repository add remote and then pull to sync your project just by one command!
-- by automation feature you can add your changed files, commit and publish just by one command!
+### Support Git
+- clone your static contents repository add remote and then pull to sync your project just by one command!
+- add your changed files, commit and publish just by one command!
 - supports some git tasks such as init, add, remote add, commit, pull, push separately.
-- by init the project will create your project directory and inits git.
+- the plugin can create your project directory and init git.
 
-**NOTE:** Your root project shall not be your workspace, Your workspace is the directory that you define in root project and the plugin can handle it!
+**NOTE:** Your root project shall not be your workspace, Your workspace is the directory that you define in root project and the plugin can handle it as root of your website!
 
-**Add Plugin**
-----
+## Add and Config
 
-You can add plugin in build.gradle file of your root project as below:
+### Add Plugin
+
+- Add plugin to build.gradle of your root project as below:
 
 ```gradle
     plugins{
-        id("io.github.kodedevel.cmplugin") version "1.0"
+        id("io.github.kodedevel.cmplugin") version "1.1"
     }
 ```
 
-**Configuration**
-----
-After adding plugin to your project you can config it in your build.gradle.kts of your root project directory
+### Config Plugin
 
-**Base Configuration:**
+#### Define workspace directory path
 
-- You could config base configurations as below:
-- The configuration of below is essential and u should name your project workspace directory same as your url home page.
+- this is were your project will go 
 
 ```Gradle
 cmpConfig{
-    projectDir = "path-to-your-workspace-directory"
-    baseURL = "url-of-your-website"
+    workspaceDir = "path-to-your-workspace-directory"
 }
 ```
 
-**GIT Configuration**
+#### Define backup directory path
+
+```gradle
+cmpConfig{
+    backupDir = "path-to-your-backup-directory"
+}
+```
+
+#### Define baseUrl
+
+- Define baseUrl of your website to create sitemaps.
+
+```gradle
+cmpConfig{
+    baseUrl = "your-website-address"
+}
+```
+
+#### Define username for git
 
 ```Gradle
     cmpConfig{
@@ -61,16 +73,48 @@ cmpConfig{
         
         git{
             username = "Your-Git-Username"
-            origin = "origin-of-your-branch" //e.g main
-            commitMessage = "Your-commit-message-to-affect-push"
         }
+        
+        ...
+    }
+```
+
+#### Define origin for github
+
+```Gradle
+    cmpConfig{
+        
+        ...
+        
+        git{
+            origin = "origin-of-your-branch" //e.g main
+        }
+        
+        ...
         
     }
 ```
 
-**SitemapConfiguration**
+#### Get git access token environment variable
 
-- You can config your sitemap requirements whether u need a single sitemap file or multiple sitemap files and define your categories for multiple sitemap files related to your urls.
+- If you have defined git access token as system variable u can call it by defining its name in configuration file as below:
+
+```Gradle
+    cmpConfig{
+        
+        ...
+        
+        git{
+            accessTokenSystemVarName = "your-system-access-token-variable-name"
+        }
+        ...
+    }
+```
+
+#### Define categories for sitemap files
+
+- You can have several sitemap files in category
+- Your category name must be one of your url parts, for example if your url is https://example.com/a/b/c/file.html your category name must be a or b or c.
 
 
 ```Gradle
@@ -80,13 +124,52 @@ cmpConfig{
         
         sitemap{
             categories= arrayOf("first-category", "second-category", /* And so on... */)
-            exclude = arrayOf("fileA.html", "fileB.html", "fileC.html", /*and so on ... */)
         }
+        
+        ...
     }
 ```
 
-**Note** Your category name must be one of your url parts. for example if your url is https://example.com/a/b/c/file.html your category name must be a or b or c.
+#### Prevent html pages from being included in sitemap files.
 
-**Note** exclude option is added to exclude some html pages which u don't want to add. for example google console's html verification code could be added as exclude to prevent from add it to the sitemap generated file.
+- You can exclude pages from being added to sitemap files.
 
-**Note** exclude option must likely is good for none category scenarios
+```gradle
+cmpConfig{
+        
+        ...
+        
+        sitemap{
+            exclude = arrayOf("fileA.html", "fileB.html", "fileC.html", /*and so on ... */)
+        }
+        ...
+}
+```
+
+### Executable Commands
+
+- below is some important commands to use in gradle:
+
+#### Backup and restore
+**createBackup** create a local backup from the project
+
+**cleanBackup** clean local backup
+
+#### Git
+
+- **initGit**
+create a git project and its corresponding workspace directory
+
+- **automatePush**
+automatically does necessary tasks to push project to the github repository
+
+- **automateClone**
+automatically does necessary tasks to clone and sync project from repository
+
+#### Sitemap
+
+- **autoCreateSitemaps**
+automatically creates sitemap file(s) and sitemapindex for the project
+
+- **cleanSitemaps**
+clean all generated sitemap files.
