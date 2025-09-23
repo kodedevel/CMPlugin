@@ -4,13 +4,19 @@ import io.github.kodedevel.cmplugin.CMPExtension
 import java.io.File
 
 abstract class Push : Git() {
-
     override fun config(extension: CMPExtension) {
         super.config(extension)
 
+        description = "Pushing contents to github"
+
         doFirst {
-            println("Enter git access token: ")
-            val accessToken = readLine()
+
+            var accessToken = project.providers.environmentVariable(extension.git.accessTokenSystemVarName).orNull
+
+            if (accessToken == null){
+                println("No environment variable for access token u can enter your access token here:")
+                accessToken = readLine()
+            }
 
             val repo = File(repoDirPath.get()).name
 
