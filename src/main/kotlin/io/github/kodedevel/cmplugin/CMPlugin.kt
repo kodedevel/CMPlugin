@@ -4,7 +4,7 @@ package io.github.kodedevel.cmplugin
 import io.github.kodedevel.cmplugin.tasks.backup.CreateBackup
 import io.github.kodedevel.cmplugin.tasks.backup.Restore
 import io.github.kodedevel.cmplugin.tasks.sitemap.CleanSitemaps
-import io.github.kodedevel.cmplugin.tasks.sitemap.CreateSitemap
+import io.github.kodedevel.cmplugin.tasks.sitemap.SitemapTask
 import io.github.kodedevel.cmplugin.tasks.git.Add
 import io.github.kodedevel.cmplugin.tasks.git.AddRemote
 import io.github.kodedevel.cmplugin.tasks.git.Clone
@@ -12,6 +12,7 @@ import io.github.kodedevel.cmplugin.tasks.git.Commit
 import io.github.kodedevel.cmplugin.tasks.git.Init
 import io.github.kodedevel.cmplugin.tasks.git.Pull
 import io.github.kodedevel.cmplugin.tasks.git.Push
+import io.github.kodedevel.cmplugin.tasks.sitemap.SitemapIndexTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.Delete
@@ -32,9 +33,21 @@ class CMPlugin : Plugin<Project> {
     }
 
     private fun sitemapTasks(project: Project, extension: CMPExtension) {
-        project.tasks.register<CreateSitemap>(CreateSitemap.NAME) {
+
+        project.tasks.register<SitemapTask>(SitemapTask.NAME) {
             group = GROUP_NAME_CMPLUGIN
             config(extension)
+        }
+
+        project.tasks.register<SitemapIndexTask>(SitemapIndexTask.NAME){
+            group = GROUP_NAME_CMPLUGIN
+            config(extension)
+            mustRunAfter(SitemapTask.NAME)
+        }
+
+        project.tasks.register("autoCreateSitemaps"){
+            group = GROUP_NAME_CMPLUGIN
+            dependsOn(SitemapIndexTask.NAME, SitemapTask.NAME, Add.NAME, Commit.NAME)
         }
 
         project.tasks.register<CleanSitemaps>(CleanSitemaps.NAME) {
@@ -53,6 +66,7 @@ class CMPlugin : Plugin<Project> {
         project.tasks.register<Add>(Add.NAME) {
             group = GROUP_NAME_GIT
             config(extension)
+            mustRunAfter(SitemapTask.NAME, SitemapIndexTask.NAME)
         }
 
         project.tasks.register<Commit>(Commit.NAME) {
