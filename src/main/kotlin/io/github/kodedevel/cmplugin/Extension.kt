@@ -15,7 +15,7 @@ abstract class CMPExtension @Inject constructor() {
 
     init {
         backupDir.convention("backup")
-        workspaceDir.convention("root-content-no-name")
+        workspaceDir.convention("root-contents-no-name")
     }
 
     @get:Nested
