@@ -27,7 +27,7 @@ abstract class CleanSitemaps : DefaultTask(), Configurable, TaskRunnable {
     }
 
     override fun config(extension: CMPExtension) {
-        rootHTMLDir.set(project.layout.dir(extension.projectDir.map { it -> File(it) }))
+        rootHTMLDir.set(project.layout.dir(extension.workspaceDir.map { it -> File(it) }))
     }
 
 

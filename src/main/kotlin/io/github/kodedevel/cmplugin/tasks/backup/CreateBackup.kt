@@ -24,7 +24,7 @@ abstract class CreateBackup : Zip(), Configurable, TaskRunnable {
     }
 
     override fun config(extension: CMPExtension) {
-        projectDir.set(project.layout.dir(extension.projectDir.map { File(it) }))
+        projectDir.set(project.layout.dir(extension.workspaceDir.map { File(it) }))
         backupDir.set(project.layout.dir(extension.backupDir.map { File(it) }))
         from(projectDir)
         destinationDirectory.set(backupDir.get())

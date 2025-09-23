@@ -9,7 +9,7 @@ abstract class Init : Git() {
     @TaskAction
     override fun run() {
         super.run()
-        val repoDir = File(repoDirPath.get())
+        val repoDir = File(repoDir.get())
         if (!repoDir.exists())
             repoDir.mkdir()
     }

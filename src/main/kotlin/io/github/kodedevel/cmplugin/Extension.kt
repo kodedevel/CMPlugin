@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 abstract class CMPExtension @Inject constructor() {
 
-    abstract val projectDir: Property<String>
+    abstract val workspaceDir: Property<String>
 
     abstract val backupDir: Property<String>
 
@@ -15,6 +15,7 @@ abstract class CMPExtension @Inject constructor() {
 
     init {
         backupDir.convention("backup")
+        workspaceDir.convention("root-content-no-name")
     }
 
     @get:Nested
@@ -34,13 +35,14 @@ abstract class CMPExtension @Inject constructor() {
 
 
 abstract class GitExtension @Inject constructor() {
-    abstract val commitMessage: Property<String>
-    abstract val username: Property<String>
+    abstract val accessTokenSystemVarName: Property<String?>
+    abstract val username: Property<String?>
     abstract val origin: Property<String>
 
     init {
         origin.convention("main")
-        commitMessage.convention("Updated")
+        accessTokenSystemVarName.convention(null)
+        username.convention(null)
     }
 }
 

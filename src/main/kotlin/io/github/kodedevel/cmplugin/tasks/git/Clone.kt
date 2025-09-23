@@ -7,6 +7,7 @@ abstract class Clone : Git() {
     override fun config(extension: CMPExtension) {
         super.config(extension)
         workingDir = project.rootDir
+        if (username.orNull != null)
         args("clone", getRepoURL())
     }
 

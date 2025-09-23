@@ -12,10 +12,10 @@ abstract class Git : Exec(), Configurable, TaskRunnable {
 
     @get:Optional
     @get:Input
-    internal abstract val repoDirPath: Property<String>
+    internal abstract val repoDir: Property<String>
 
     @get:Input
-    internal abstract val username: Property<String>
+    internal abstract val username: Property<String?>
 
     @get:Input
     internal abstract val origin: Property<String>
@@ -32,17 +32,17 @@ abstract class Git : Exec(), Configurable, TaskRunnable {
 
     @Internal
     fun getRepoURL(): String {
-        val reponame = File(repoDirPath.get())
+        val reponame = File(repoDir.get())
         return "$GIT_URL/${username.get()}/${reponame.name}.git"
     }
 
     override fun config(extension: CMPExtension) {
         executable = "git"
-        repoDirPath.set(extension.projectDir)
+        repoDir.set(extension.workspaceDir)
         username.set(extension.git.username)
         origin.set(extension.git.origin)
 
-        setWorkingDir(repoDirPath.map { File(it) })
+        setWorkingDir(repoDir.map { File(it) })
         isIgnoreExitValue = true
     }
 

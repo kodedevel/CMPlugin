@@ -20,13 +20,13 @@ abstract class Restore : Copy(), Configurable, TaskRunnable {
     abstract val backupFile: RegularFileProperty
 
     @get:OutputDirectory
-    abstract val projectDir: DirectoryProperty
+    abstract val workspaceDir: DirectoryProperty
 
 
     @TaskAction
     override fun run() {
-        val targetDir = projectDir.asFile.get()
-        val backupFile = backupDir.file("${projectDir.asFile.get().name}.zip").get().asFile
+        val targetDir = workspaceDir.asFile.get()
+        val backupFile = backupDir.file("${workspaceDir.asFile.get().name}.zip").get().asFile
 
         if (!backupFile.exists()) {
             println("No backup")
@@ -36,7 +36,7 @@ abstract class Restore : Copy(), Configurable, TaskRunnable {
         val result = targetDir.deleteRecursively() || !targetDir.exists()
         println("print $result")
         if (result) {
-            projectDir.asFile.get().mkdirs()
+            workspaceDir.asFile.get().mkdirs()
         }
     }
 
@@ -44,12 +44,12 @@ abstract class Restore : Copy(), Configurable, TaskRunnable {
     override fun config(extension: CMPExtension) {
         backupDir.set(project.layout.dir(extension.backupDir.map { File(it) }))
 
-        projectDir.set(project.layout.dir(extension.projectDir.map { File(it) }))
+        workspaceDir.set(project.layout.dir(extension.workspaceDir.map { File(it) }))
 
 
-        backupFile.set(backupDir.file("${projectDir.asFile.get().name}.zip"))
+        backupFile.set(backupDir.file("${workspaceDir.asFile.get().name}.zip"))
 
         from(project.zipTree(backupFile))
-        into(projectDir)
+        into(workspaceDir)
     }
 }

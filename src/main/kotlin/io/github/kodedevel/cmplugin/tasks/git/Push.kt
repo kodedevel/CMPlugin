@@ -18,7 +18,7 @@ abstract class Push : Git() {
                 accessToken = readLine()
             }
 
-            val repo = File(repoDirPath.get()).name
+            val repo = File(repoDir.get()).name
 
             val remote =
                 "https://${username.get()}:$accessToken@github.com/${username.get()}/$repo"

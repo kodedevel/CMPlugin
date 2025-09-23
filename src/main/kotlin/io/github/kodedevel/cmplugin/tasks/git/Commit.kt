@@ -1,21 +1,22 @@
 package io.github.kodedevel.cmplugin.tasks.git
 
 import io.github.kodedevel.cmplugin.CMPExtension
-import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Input
 
 abstract class Commit : Git() {
 
-    @get:Input
-    abstract val commitMessage: Property<String>
-
     override fun config(extension: CMPExtension) {
         super.config(extension)
-        commitMessage.set(extension.git.commitMessage)
-        args("commit", "-m", commitMessage.get())
+        description = "Committing changes to git"
+
+        doFirst {
+            println("Enter commit message (or press enter if u want it to be default)")
+            val commitMessage = readLine()
+            args("commit", "-m", if (commitMessage == null || commitMessage.isEmpty()) DEFAULT_COMMIT_MESSAGE else commitMessage)
+        }
     }
 
     companion object {
         const val NAME = "commit"
+        private const val DEFAULT_COMMIT_MESSAGE = "Updated"
     }
 }
